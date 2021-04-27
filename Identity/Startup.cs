@@ -49,7 +49,7 @@ namespace Identity
 
 
             AddAppCorsPolicies(services);
-            AddAuthScheme(services);
+            Settings.Current.AddAuthScheme(services);
 
             services.AddCors();
 
@@ -100,36 +100,6 @@ namespace Identity
 
         }
 
-        /// <summary>
-        /// Sets up the application's jwt bearer tokens and applies policies to the service collection
-        /// </summary>
-        /// <param name="services"></param>
-        private void AddAuthScheme(IServiceCollection services)
-        {
-
-            services.AddAuthentication(opts =>
-            {
-                opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(cfg =>
-            {
-                cfg.RequireHttpsMetadata = false;
-                cfg.SaveToken = true;
-                cfg.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidIssuer = Configuration.GetSection("TokenSettings:ValidIssuer").Value,
-                    ValidAudience = Configuration.GetSection("TokenSettings:ValidAudience").Value,
-                    IssuerSigningKey = TokenService.GetKey(Configuration.GetSection("TokenSettings:SecurityKey").Value),
-                    ClockSkew = TimeSpan.Zero,
-
-                    // security switches
-                    RequireExpirationTime = true,
-                    ValidateIssuer = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateAudience = true
-                };
-            });
-        }
+        
     }
 }

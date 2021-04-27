@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Identity\Identity.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>

@@ -10,6 +10,9 @@ namespace CaloriePunch.Data.Entities
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
+
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string UserId { get; set; }
         public double? Calories { get; set; }
         public double? Fat { get; set; }
         public double? Carbs { get; set; }

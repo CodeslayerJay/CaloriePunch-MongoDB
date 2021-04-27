@@ -3,6 +3,7 @@ using CaloriePunch.Data.Settings;
 using CaloriePunch.Data.Settings.Interfaces;
 using CaloriePunch.Services;
 using CaloriePunch.Services.Interfaces;
+using Identity;
 using Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -38,10 +39,10 @@ namespace CaloriePunch.API
             services.AddSingleton<IDatabaseSettings>(x => x.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddScoped<IDataContext, DataContext>();
             services.AddScoped<ILogService, LogService>();
-
+            services.AddScoped<ICalorieService, CalorieService>();
 
             AddAppCorsPolicies(services);
-            AddAuthScheme(services);
+            Settings.Current.AddAuthScheme(services);
 
             services.AddCors();
 
@@ -92,36 +93,5 @@ namespace CaloriePunch.API
 
         }
 
-        /// <summary>
-        /// Sets up the application's jwt bearer tokens and applies policies to the service collection
-        /// </summary>
-        /// <param name="services"></param>
-        private void AddAuthScheme(IServiceCollection services)
-        {
-
-            services.AddAuthentication(opts =>
-            {
-                opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(cfg =>
-            {
-                cfg.RequireHttpsMetadata = false;
-                cfg.SaveToken = true;
-                cfg.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidIssuer = Configuration.GetSection("TokenSettings:ValidIssuer").Value,
-                    ValidAudience = Configuration.GetSection("TokenSettings:ValidAudience").Value,
-                    IssuerSigningKey = TokenService.GetKey(Configuration.GetSection("TokenSettings:SecurityKey").Value),
-                    ClockSkew = TimeSpan.Zero,
-
-                    // security switches
-                    RequireExpirationTime = true,
-                    ValidateIssuer = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateAudience = true
-                };
-            });
-        }
     }
 }
