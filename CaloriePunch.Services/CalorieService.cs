@@ -38,7 +38,8 @@ namespace CaloriePunch.Services
         {
             var entry = await _entriesCollection.Find(q => q.Id == entryId && q.UserId == userId).FirstOrDefaultAsync();
 
-            _serviceResult.ResultCollection.Add(MapToCalorieEntryDTO(entry));
+            if(entry != null)
+                _serviceResult.ResultCollection.Add(MapToCalorieEntryDTO(entry));
 
             return _serviceResult;
         }
@@ -68,7 +69,7 @@ namespace CaloriePunch.Services
             if (string.IsNullOrEmpty(entry.UserId))
                 _serviceResult.Errors.Add("UserId is required.");
 
-            return _serviceResult.Errors.Any();
+            return !_serviceResult.Errors.Any();
         }
 
         private CalorieEntryDTO MapToCalorieEntryDTO(CalorieEntry entry)

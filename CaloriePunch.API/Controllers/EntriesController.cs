@@ -26,7 +26,8 @@ namespace CaloriePunch.API.Controllers
         {
             try
             {
-                return Ok(await _calorieService.GetUserEntriesAsync(base.UserId));
+                var response = await _calorieService.GetUserEntriesAsync(base.UserId);
+                return Ok(response.ResultCollection);
             }
             catch(Exception ex)
             {
@@ -37,20 +38,20 @@ namespace CaloriePunch.API.Controllers
         }
 
         // Entries/5
-        //[HttpGet]
-        //[Route("/{id:string}")]
-        //public async Task<IActionResult> GetById(string id)
-        //{
-        //    try
-        //    {
-        //        return Ok(await _calorieService.GetUserEntryByIdAsync(id, base.UserId));
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        base.LogError(ex.StackTrace);
-        //        return BadRequest(AppConstants.GenericErrorMsg);
-        //    }
-        //}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            try
+            {
+                var response = await _calorieService.GetUserEntryByIdAsync(id, base.UserId);
+                return Ok(response.Result);
+            }
+            catch (Exception ex)
+            {
+                base.LogError(ex.StackTrace);
+                return BadRequest(AppConstants.GenericErrorMsg);
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post(CalorieEntryUpsertBindingModel model)

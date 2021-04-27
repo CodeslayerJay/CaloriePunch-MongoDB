@@ -1,10 +1,12 @@
 ﻿using CaloriePunch.Data;
 using CaloriePunch.Data.Entities;
+using CaloriePunch.Services.Common;
 using CaloriePunch.Services.Interfaces;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CaloriePunch.Services
 {
@@ -54,7 +56,7 @@ namespace CaloriePunch.Services
             });
         }
 
-        public IList<Log> Read() => _logCollection.Find(x => true).ToList();
+        public IList<Log> GetLogs() => _logCollection.Find(x => true).ToList();
         public Log Find(string id) => _logCollection.Find(x => x.Id == id).FirstOrDefault();
         public void Update(Log log) => _logCollection.ReplaceOne(x => x.Id == log.Id, log);
         public void Delete(string id) => _logCollection.DeleteOne(x => x.Id == id);

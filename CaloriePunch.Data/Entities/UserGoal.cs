@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace CaloriePunch.Data.Entities
 {
     public class UserGoal
     {
-        [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        [BsonId] // primary key
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         public string UserId { get; set; }

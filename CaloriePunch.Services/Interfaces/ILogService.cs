@@ -13,7 +13,7 @@ namespace CaloriePunch.Services.Interfaces
         void LogError(string msg, string externalId = null);
         void Delete(string id);
         Log Find(string id);
-        IList<Log> Read();
+        IList<Log> GetLogs();
         void Update(Log log);
     }
 }
