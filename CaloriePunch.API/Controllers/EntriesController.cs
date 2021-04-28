@@ -32,7 +32,7 @@ namespace CaloriePunch.API.Controllers
             catch(Exception ex)
             {
                 base.LogError(ex.StackTrace);
-                return BadRequest(AppConstants.GenericErrorMsg);
+                return base.ErrorResponse(ex);
             }
 
         }
@@ -49,7 +49,7 @@ namespace CaloriePunch.API.Controllers
             catch (Exception ex)
             {
                 base.LogError(ex.StackTrace);
-                return BadRequest(AppConstants.GenericErrorMsg);
+                return base.ErrorResponse(ex);
             }
         }
 
@@ -58,12 +58,17 @@ namespace CaloriePunch.API.Controllers
         {
             try
             {
-                return Ok(await _calorieService.AddEntryAsync(MapToCalorieEntry(model)));
+                var response = await _calorieService.AddEntryAsync(MapToCalorieEntry(model));
+
+                if (response.Success == false)
+                    return BadRequest(response.Errors);
+
+                return Ok(response.Result);
             }
             catch(Exception ex)
             {
                 base.LogError(ex.StackTrace);
-                return BadRequest(AppConstants.GenericErrorMsg);
+                return base.ErrorResponse(ex);
             }
         }
 

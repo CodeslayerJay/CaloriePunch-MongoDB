@@ -30,7 +30,7 @@ namespace CaloriePunch.API.Controllers
             catch(Exception ex)
             {
                 base.LogError(ex.StackTrace);
-                return BadRequest(AppConstants.GenericErrorMsg);
+                return base.ErrorResponse(ex);
             }
         }
 

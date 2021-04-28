@@ -18,15 +18,16 @@ namespace CaloriePunch.Data
         }
 
 
-        public IMongoCollection<User> Users => GetCollection<User>();
-        public IMongoCollection<CalorieEntry> CalorieEntries => GetCollection<CalorieEntry>();
-        public IMongoCollection<UserGoal> UserGoals => GetCollection<UserGoal>();
+        public IMongoCollection<User> Users => Context.GetCollection<User>("Users");
+        public IMongoCollection<CalorieEntry> CalorieEntries => Context.GetCollection<CalorieEntry>("CalorieEntries");
+        public IMongoCollection<UserGoal> UserGoals => Context.GetCollection<UserGoal>("UserGoals");
+        public IMongoCollection<Log> Logs => Context.GetCollection<Log>("Logs");
 
 
-        public IMongoCollection<T> GetCollection<T>() where T : class
-        {
-            return Context.GetCollection<T>(nameof(T));
-        }
+        //public IMongoCollection<T> GetCollection<T>() where T : class
+        //{
+        //    return Context.GetCollection<T>(nameof(T));
+        //}
 
     }
 }

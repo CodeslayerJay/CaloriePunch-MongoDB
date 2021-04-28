@@ -18,7 +18,7 @@ namespace CaloriePunch.Services
         public LogService(IDataContext dataService)
         {
             _db = dataService;
-            _logCollection = _db.GetCollection<Log>();
+            _logCollection = _db.Logs;
         }
 
         public void AddLog(string msg, LogType logType = LogType.Info, string externalId = null)

@@ -21,7 +21,7 @@ namespace CaloriePunch.Services
         public CalorieService(IDataContext dataService)
         {
             _db = dataService;
-            _entriesCollection = _db.GetCollection<CalorieEntry>();
+            _entriesCollection = _db.CalorieEntries; // _db.GetCollection<CalorieEntry>();
             _serviceResult = new ServiceResult();
         }
 
@@ -52,7 +52,10 @@ namespace CaloriePunch.Services
 
             await _entriesCollection.InsertOneAsync(entry);
 
-            return null;
+            _serviceResult.ResultCollection.Add(MapToCalorieEntryDTO(entry));
+
+            return _serviceResult;
+            
         }
 
         public async Task<ServiceResult> UpdateEntryAsync(CalorieEntry entry)

@@ -1,4 +1,5 @@
-﻿using CaloriePunch.Services;
+﻿using CaloriePunch.API.Utils;
+using CaloriePunch.Services;
 using CaloriePunch.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,15 @@ namespace CaloriePunch.API.Controllers
 
                 return "";
             }
+        }
+
+        protected IActionResult ErrorResponse(Exception ex)
+        {
+            var msg = AppConstants.GenericErrorMsg;
+            if (ex.Message.Contains("is not a valid 24 digit hex string."))
+                msg = AppConstants.NotAValidIdKey;
+
+            return BadRequest(msg);
         }
     }
 }
